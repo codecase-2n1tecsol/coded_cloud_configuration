@@ -1,9 +1,9 @@
 node_modules/
 dataReturns/sensitiveFiles/*
 .createCert.ps1
+.assign_rbac.sh
 .env
 .entpr-app_roles.sh
-
 
 #Exceptions/Explicitly allow(s)
 !dataReturns/
