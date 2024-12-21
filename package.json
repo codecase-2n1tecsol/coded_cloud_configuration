@@ -1,12 +1,42 @@
 {
   "name": "coded_cloud_configuration",
   "version": "1.0.0",
+  "author": "Casey Bertrand",
+  "license": "GNU GPLv3 ",
+  "description": "Branch: feature/conditionalAccess-BupDep is to backup (to json template file) the current CondAcc's. This repo: is the infancy or incubator from which the Orchestrator will be born from. It houses the code and templates to configure key components of the 365 landscape.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mkApp": "node /usr/src/projectSpace/coded_cloud_configuration/scripts/cloudSetup_phase/createEnterpriseApp.js",
+    "copyCAP": "node /usr/src/projectSpace/coded_cloud_configuration/scripts/copyCondAccPols.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "keywords": [
+    "conditional-access",
+    "azure",
+    "graph-api"
+  ],
+  "dependencies": {
+    "@azure/identity": "^3.0.0",
+    "@azure/keyvault-admin": "^4.0.0",
+    "@azure/keyvault-certificates": "^4.0.0",
+    "@azure/keyvault-common": "^2.0.0",
+    "@azure/keyvault-secrets": "^4.0.0",
+    "@azure/logger": "^1.0.0",
+    "@azure/ms-rest-azure-env": "^2.0.0",
+    "@azure/msal-node": "^2.0.0",
+    "@azure/storage-blob": "^12.0.0",
+    "@inquirer/prompts": "^7.2.1",
+    "@microsoft/microsoft-graph-client": "^3.0.0",
+    "async": "^3.2.5",
+    "axios": "^1.7.2",
+    "dotenv": "^16.0.3",
+    "isomorphic-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@azure/identity-vscode": "^1.0.0",
+    "jest": "^29.7.0",
+    "eslint": "^8.50.0",
+    "eslint-plugin-json": "^3.0.0",
+    "prettier": "^3.0.0"
+  }
 }
