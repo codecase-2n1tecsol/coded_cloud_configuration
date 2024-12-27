@@ -1,3 +1,5 @@
+// This will create an Enterprise App (client) in Entra Apps, and assign RBAC Roles.
+
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
@@ -12,7 +14,13 @@ const config = {
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   tenantId: process.env.TENANT_ID,
+  subscriptionId: process.env.SUBSCRIPTION_ID,
 };
+
+// Validate environment variables
+if (!config.clientId || !config.clientSecret || !config.tenantId || !config.subscriptionId) {
+  throw new Error("Missing required environment variables (CLIENT_ID, CLIENT_SECRET, TENANT_ID, SUBSCRIPTION_ID)");
+}
 
 const msalConfig = {
   auth: {
@@ -45,6 +53,19 @@ function saveToFile(data, fileName = "myappauth.json") {
   console.log(`Saved to ${filePath}`);
 }
 
+function saveToEnv(data) {
+  const envPath = path.join(__dirname, "../../.env");
+
+    // Prepare the data as `key=value` pairs
+  const envContent = Object.entries(data)
+    .map(([key, value]) => `${key}=${value}`)
+    .join("\n");
+
+    // Write or append to the .env file
+  fs.writeFileSync(envPath, envContent, { encoding: "utf8" });
+  console.log(`Environment variables saved to ${envPath}`);
+}
+
 async function createEnterpriseAppAndServicePrincipal() {
   try {
     const accessToken = await getAccessToken();
@@ -53,7 +74,7 @@ async function createEnterpriseAppAndServicePrincipal() {
       authProvider: (done) => done(null, accessToken),
     });
 
-    const appDetails = { displayName: "rwmOrch_client" };
+    const appDetails = { displayName: "Orch_client" };
     const appResponse = await graphClient.api("/applications").post(appDetails);
     console.log("Application Created:", appResponse);
 
@@ -62,13 +83,14 @@ async function createEnterpriseAppAndServicePrincipal() {
     console.log("Service Principal Created:", spResponse);
 
     const appAuthData = {
-      appId: appResponse.appId,
-      displayName: appResponse.displayName,
-      password: config.clientSecret,
-      tenant: config.tenantId,
+      CLIENT_ID: appResponse.appId,
+      CLIENT_SECRET: config.clientSecret,
+      TENANT_ID: config.tenantId,
+      SUBSCRIPTION_ID: config.subscriptionId, // Replace with logic if needed
     };
 
-    saveToFile(appAuthData);
+    saveToFile(appAuthData); // Save JSON file
+    saveToEnv(appAuthData); // Save to .env file
 
     return spResponse.id;
   } catch (error) {
