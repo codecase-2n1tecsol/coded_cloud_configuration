@@ -1,10 +1,20 @@
-node_modules/
-dataReturns/sensitiveFiles/*
-.createCert.ps1
-.assign_rbac.sh
+## Project root dir (folder) "coded_cloud_configuration"
 .env
-.entpr-app_roles.sh
+node_modules/
+#   # chunks
+chunks/*
 
-#Exceptions/Explicitly allow(s)
+# dataReturns/
+dataReturns/sensitiveFiles/*
+
+# scripts/
+#   # cloudSetup_phase/
+.assign_rbac.sh
+.entpr-app_roles.sh
+.Env
+#       # pwsh/
+.createCert.ps1
+
+##Exceptions/Explicitly allow(s)
 !dataReturns/
 !dataReturns/*
